@@ -1,5 +1,10 @@
 #include "utils.h"
-#include <stdio.h>
+
+int str_len (char * str) {
+  int i;
+  for (i = 0; str[i] != '\0'; ++i);
+  return i;
+}
 
 void str_split (char ** rest, char delimiter, char ** token) {
   *token = NULL;
@@ -9,7 +14,7 @@ void str_split (char ** rest, char delimiter, char ** token) {
   }
 
   *token = *rest;
-  int base_length = strlen(*rest);
+  int base_length = str_len(*rest);
 
   for (int i = 0; i < base_length; i++) {
     if ((*rest)[i] == delimiter) {
@@ -24,25 +29,24 @@ void str_split (char ** rest, char delimiter, char ** token) {
   *rest = NULL;
 }
 
-char * str_between (char * str, char init_char, char end_char) {
+Boolean str_between (char ** str, char init_char, char end_char) {
   int init_index = 0, end_index = 0;
-  for (int i = 0; strlen(str); i++) {
-    if (str[i] == init_char) {
+  for (int i = 0; (*str)[i] != '\0'; i++) {
+    if ((*str)[i] == init_char) {
       init_index = i;
     }
 
-    if (str[i] == end_char) {
+    if ((*str)[i] == end_char) {
       end_index = i;
       break;
     }
   }
 
   if (end_index > init_index && end_index - init_index >= 2) {
-    size_t size = (end_index - init_index - 1) * sizeof(char);
-    char * result = (char *) malloc(size);
-    memcpy(result, &str[init_index + 1], size);
-    return result;
+    *str += init_index;
+    (*str)[end_index] = '\0';
+    return TRUE;
   }
 
-  return NULL;
+  return FALSE;
 }

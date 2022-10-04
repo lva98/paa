@@ -41,31 +41,25 @@ Boolean read_input (Hanoi_Game hanoi) {
   char * input_text;
   for (; scanf("%ms", &input_text) != EOF; ) {
     char * ptr_input_text = input_text;
-    char * ptr_disks_str = NULL;
     char * tower_str = NULL;
-    char * disks_str = NULL;
     int disk_index;
     Hanoi_Color tower_color, disk_color;
-
     str_split(&input_text, '=', &tower_str);
     tower_color = str2color(tower_str);
-    disks_str = str_between(input_text, '[', ']');
-    ptr_disks_str = disks_str;
 
-    if (disks_str != NULL) {
+    if (str_between(&input_text, '[', ']')) {
       char * disk_str;
       do {
-        str_split(&disks_str, ';', &disk_str);
+        str_split(&input_text, ';', &disk_str);
         if (disk_str != NULL) {
           disk_color = str2color(disk_str);
           sscanf(disk_str, "%*[^0123456789]%d", &disk_index); // https://stackoverflow.com/a/13399812
           add_disk(hanoi, tower_color, disk_color, disk_index);
         }
       } while (disk_str != NULL);
-    }
+    };
 
     free(ptr_input_text);
-    free(ptr_disks_str);
   }
 
   return TRUE;
@@ -80,14 +74,14 @@ void print_tower (Hanoi_Color tower_color) {
   }
 }
 
-void print_disk (Hanoi_Color disk_color, int index, Boolean last) {
-  char * color_str = color2str(disk_color);
-  printf("p%s%d", color_str, index);
-  if (last == FALSE) {
+void print_disk (Hanoi_Color disk_color, int index, Boolean first, int count) {
+  if (!first) {
     printf(";");
   }
+  char * color_str = color2str(disk_color);
+  printf("p%s%d", color_str, count);
 }
 
 void next_tower () {
-  printf("]\n");
+  printf("];\n");
 }

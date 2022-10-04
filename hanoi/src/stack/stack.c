@@ -37,19 +37,21 @@ Boolean stack_push (Stack stack, void * data) {
 }
 
 Boolean stack_pop (Stack stack, void ** ptr_data) {
-  *ptr_data = NULL;
-  if (stack->head != NULL) {
+  if (stack_empty(stack) == FALSE) {
+    *ptr_data = NULL;
     *ptr_data = (void *) malloc(stack->data_size);
     if (*ptr_data == NULL) {
       return FALSE;
     }
     memcpy(*ptr_data, stack->head->data, stack->data_size);
     free(stack->head->data);
+    stack->head->data = NULL;
 
     if (stack->head->next != NULL) {
       Stack_Node * old_head = stack->head;
       stack->head = stack->head->next;
       free(old_head);
+      old_head = NULL;
     } else {
       free(stack->head);
       stack->head = NULL;
@@ -60,22 +62,36 @@ Boolean stack_pop (Stack stack, void ** ptr_data) {
   return TRUE;
 }
 
-Boolean stack_top (Stack stack, void ** data) {
-  void * ptr = memcpy(*data, stack->head->data, stack->length);
-  if (ptr == NULL) {
-    return FALSE;
-  }
-
+Boolean stack_top (Stack stack, void ** top) {
+  memcpy(*top, stack->head->data, stack->data_size);
   return TRUE;
 }
 
-Boolean stack_length (Stack stack, int * length) {
-  *length = stack->length;
+Boolean stack_empty (Stack stack) {
+  return stack->head == NULL;
+}
+
+Boolean stack_node_destroy (Stack_Node ** node) {
+  free((*node)->data);
+  (*node)->data = NULL;
+  free(*node);
+  *node = NULL;
   return TRUE;
 }
 
 Boolean stack_destroy (Stack * stack) {
-  free((*stack)->head);
+  while (stack_empty(*stack) == FALSE) {
+    if ((*stack)->head->next) {
+      Stack_Node * old_head = (*stack)->head;
+      (*stack)->head = (*stack)->head->next;
+      stack_node_destroy(&old_head);
+    } else {
+      stack_node_destroy(&((*stack)->head));
+    }
+  }
+
   free(*stack);
+  (*stack) = NULL;
+
   return TRUE;
 }

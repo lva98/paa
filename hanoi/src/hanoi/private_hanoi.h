@@ -14,5 +14,4 @@ typedef struct Hanoi_Tower {
 struct Hanoi_Game {
   Hanoi_Tower towers[TOWERS_TOTAL];
   Boolean used_tower[TOWERS_TOTAL];
-  int size;
 };

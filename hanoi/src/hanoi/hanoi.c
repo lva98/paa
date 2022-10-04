@@ -5,7 +5,6 @@ Boolean create_hanoi_game (Hanoi_Game * hanoi_game) {
   if (*hanoi_game == NULL) {
     return FALSE;
   }
-  (*hanoi_game)->size = 0;
 
   for (int i = 0; i < TOWERS_TOTAL; i++) {
     Stack * stack = &((*hanoi_game)->towers[i].stack);
@@ -39,52 +38,44 @@ Boolean solve (Hanoi_Game hanoi_game) {
   for (int i = 1; i < TOWERS_TOTAL; i++) {
     if (hanoi_game->used_tower[i]) {
       Stack curr_stack = hanoi_game->towers[i].stack;
-      int length;
-      if (!stack_length(curr_stack, &length)) {
-        return FALSE;
-      }
-      for (int j = 0; j < length; j++) {
+      while (stack_empty(curr_stack) == FALSE) {
         Hanoi_Disk * disk;
         stack_pop(curr_stack, (void **) &disk);
         stack_push(temp_tower_stack, disk);
         free(disk);
+        disk = NULL;
       }
     }
   }
 
   // Passo 2: Desempilha da torre temporária -> empilha nas torres coloridas
-  int temp_length;
-  if (!stack_length(temp_tower_stack, &temp_length)) {
-    return FALSE;
-  }
-  for (int i = 0; i < temp_length; i++) {
+  while (stack_empty(temp_tower_stack) == FALSE) {
     Hanoi_Disk * disk;
     stack_pop(temp_tower_stack, (void **) &disk);
     Stack target_stack = hanoi_game->towers[disk->color].stack;
     stack_push(target_stack, disk);
     free(disk);
+    disk = NULL;
   }
 
   return TRUE;
 }
 
-void recursive_show (Hanoi_Tower * tower, void (*f1)(Hanoi_Color), void (*f2)(Hanoi_Color, int, Boolean), Boolean first) {
-  Hanoi_Disk * disk = NULL;
-  stack_pop(tower->stack, (void **) &disk);
-  
-  if (disk == NULL) {
-    f1(tower->color);
-    return;
-  }
-
-  recursive_show(tower, f1, f2, FALSE);
-  f2(disk->color, disk->index, first);
-}
-
-Boolean show (Hanoi_Game hanoi_game, void (*f1)(Hanoi_Color), void (*f2)(Hanoi_Color, int, Boolean), void (*f3)()) {
+Boolean show (Hanoi_Game hanoi_game, void (*f1)(Hanoi_Color), void (*f2)(Hanoi_Color, int, Boolean, int), void (*f3)()) {
   for (int i = 0; i < TOWERS_TOTAL; i++) {
     if (hanoi_game->used_tower[i]) {
-      recursive_show(&(hanoi_game->towers[i]), f1, f2, TRUE);
+      Hanoi_Tower tower = hanoi_game->towers[i];
+      f1(tower.color);
+      Boolean first = TRUE;
+
+      int count = 0;
+      while (stack_empty(tower.stack) == FALSE) {
+        Hanoi_Disk * disk = NULL;
+        stack_pop(tower.stack, (void **) &disk);
+        f2(disk->color, disk->index, first, ++count);
+        first = FALSE;
+        free(disk);
+      }
       f3();
     }
   }
@@ -92,6 +83,10 @@ Boolean show (Hanoi_Game hanoi_game, void (*f1)(Hanoi_Color), void (*f2)(Hanoi_C
 }
 
 Boolean destroy_hanoi (Hanoi_Game * hanoi_game) {
+  for (int i = 0; i < TOWERS_TOTAL; i++) {
+    stack_destroy(&((*hanoi_game)->towers[i].stack));
+  }
   free(*hanoi_game);
+  *hanoi_game = NULL;
   return TRUE;
 }

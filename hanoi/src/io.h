@@ -11,5 +11,5 @@ Boolean read_input (Hanoi_Game hanoi);
 
 // Formatação saída
 void print_tower (Hanoi_Color tower_color);
-void print_disk (Hanoi_Color disk_color, int index, Boolean last);
+void print_disk (Hanoi_Color disk_color, int index, Boolean last, int count);
 void next_tower ();

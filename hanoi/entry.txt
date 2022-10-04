@@ -1,5 +1,6 @@
 N=3;
 Pt=[];
-PCve=[pve2;paz3];
+PCve=[pve2];
 PCaz=[pvo1;paz2;pvo3;pve1;pvo2;paz1;paz4;paz5];
 PCvo=[paz6;paz7;pvo4;paz8];
+PCro=[paz3];

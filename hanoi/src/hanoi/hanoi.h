@@ -23,5 +23,5 @@ typedef struct Hanoi_Game * Hanoi_Game;
 Boolean create_hanoi_game (Hanoi_Game * hanoi_game);
 Boolean add_disk (Hanoi_Game hanoi_game, Hanoi_Color tower_color, Hanoi_Color disk_color, int disk_index);
 Boolean solve (Hanoi_Game hanoi_game);
-Boolean show (Hanoi_Game hanoi_game, void (Hanoi_Color), void (Hanoi_Color, int, Boolean), void ());
+Boolean show (Hanoi_Game hanoi_game, void (Hanoi_Color), void (Hanoi_Color, int, Boolean, int), void ());
 Boolean destroy_hanoi (Hanoi_Game * hanoi_game);
