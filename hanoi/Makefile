@@ -1,20 +1,26 @@
 SHELL=/bin/sh
 CC=gcc
 CFLAGS=-Wall -O3
-NOME=rgen
-ENTRADA=entry.txt
-MAIN=main
 
 default: build
 
 clean:
-	rm -f $(MAIN) $(NOME) *.o core a.out *.*~ Makefile~
+	rm -f main stack.o hanoi.o utils.o *.o core a.out *.*~ Makefile~ build/*
 
-$(NOME).o: src/tda/$(NOME).c src/tda/pub_$(NOME).h src/tda/pri_$(NOME).h
-	$(CC) $(CFLAGS) -c src/tda/$(NOME).c -o $(NOME).o
+stack.o: src/stack/stack.c src/stack/stack.h src/stack/private_stack.h
+	$(CC) $(CFLAGS) -c src/stack/stack.c -o build/stack.o
 
-build: ./src/$(MAIN).c ./src/$(MAIN).h $(NOME).o
-	$(CC) $(CFLAGS) ./src/$(MAIN).c $(NOME).o -o $(MAIN)
+hanoi.o: src/hanoi/hanoi.c src/hanoi/hanoi.h src/hanoi/private_hanoi.h
+	$(CC) $(CFLAGS) -c src/hanoi/hanoi.c -o build/hanoi.o
+
+utils.o: src/utils/utils.c src/utils/utils.h
+	$(CC) $(CFLAGS) -c src/utils/utils.c -o build/utils.o
+
+io.o: src/io.c src/io.h
+	$(CC) $(CFLAGS) -c src/io.c -o build/io.o
+
+build: ./src/main.c stack.o hanoi.o utils.o io.o
+	$(CC) $(CFLAGS) ./src/main.c build/stack.o build/hanoi.o build/utils.o build/io.o -o build/main
 
 valgrind:
 	cat $(ENTRADA) | valgrind ./$(MAIN)

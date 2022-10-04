@@ -1,11 +1,11 @@
-#include "public_stack.h"
+#include "stack.h"
+typedef struct Stack_Node {
+  void * data;
+  struct Stack_Node * next;
+} Stack_Node ;
 
 struct Stack {
   int length;
-  struct StackNode * head;
-};
-
-struct Stack_Node {
-  void * data;
-  struct StackNode * next;
+  size_t data_size;
+  Stack_Node * head;
 };
