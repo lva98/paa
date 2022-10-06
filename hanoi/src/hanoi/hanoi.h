@@ -7,9 +7,9 @@
 
 typedef enum Hanoi_Color {
   C_TE, // Temporária
-  C_AZ,
   C_AM,
   C_AN,
+  C_AZ,
   C_BR,
   C_LI,
   C_LJ,
