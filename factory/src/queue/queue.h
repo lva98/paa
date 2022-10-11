@@ -9,7 +9,7 @@
 typedef struct Queue * Queue;
 Boolean queue_create (Queue *, size_t);
 Boolean queue_push (Queue, void *);
-Boolean queue_pop (Queue, void **);
-Boolean queue_front (Queue, void **);
+Boolean queue_pop (Queue, void *);
+Boolean queue_front (Queue, void *);
 Boolean queue_empty (Queue);
 Boolean queue_destroy (Queue *);

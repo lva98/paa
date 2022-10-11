@@ -1,14 +1,22 @@
 #include "queue/queue.h"
+#include <stdio.h>
 
 int main () {
   Queue queue;
   queue_create(&queue, sizeof(int));
 
-  int n = 10;
-  queue_push(queue, (void **) &n);
-  int m = 20;
-  queue_push(queue, (void **) &m);
+  for (int i = 0; i < 10; i++) {
+    queue_push(queue, &i);
+  }
 
-  queue_pop(queue, NULL);
-  queue_pop(queue, NULL);
+  while (queue_empty(queue) == FALSE) {
+    int front;
+    queue_front(queue, &front);
+    printf("%d\n", front);
+    queue_pop(queue, NULL);
+  }
+
+  queue_destroy(&queue);
+
+  return 0;
 }

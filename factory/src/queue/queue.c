@@ -33,20 +33,15 @@ Boolean queue_push (Queue queue, void * data) {
   return TRUE;
 }
 
-Boolean queue_pop (Queue queue, void ** ptr_data) {
+Boolean queue_pop (Queue queue, void * ptr_data) {
   if (queue_empty(queue) == FALSE) {
-    if (*ptr_data != NULL) {
-      *ptr_data = NULL;
-      *ptr_data = (void *) malloc(queue->data_size);
-      if (*ptr_data == NULL) {
-        return FALSE;
-      }
-      memcpy(*ptr_data, queue->front->data, queue->data_size);
+    if (ptr_data != NULL) {
+      memcpy(ptr_data, queue->front->data, queue->data_size);
     }
     free(queue->front->data);
     queue->front->data = NULL;
 
-    if (queue->front->next != NULL) {
+    if (queue->front != NULL) {
       Queue_Node * old_front = queue->front;
       queue->front = queue->front->next;
       free(old_front);
@@ -61,8 +56,8 @@ Boolean queue_pop (Queue queue, void ** ptr_data) {
   return TRUE;
 }
 
-Boolean queue_front (Queue queue, void ** front) {
-  memcpy(*front, queue->front->data, queue->data_size);
+Boolean queue_front (Queue queue, void * front) {
+  memcpy(front, queue->front->data, queue->data_size);
   return TRUE;
 }
 
