@@ -1,0 +1,6 @@
+*.o
+a.out
+*.zip
+.vscode
+build/*
+main
