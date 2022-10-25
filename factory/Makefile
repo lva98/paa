@@ -10,11 +10,17 @@ clean:
 queue.o: src/queue/queue.c src/queue/queue.h src/queue/private_queue.h
 	$(CC) $(CFLAGS) -c src/queue/queue.c -o build/queue.o
 
-build: ./src/main.c queue.o
-	$(CC) $(CFLAGS) ./src/main.c build/queue.o -o main
+app.o: src/app.c src/app.h
+	$(CC) $(CFLAGS) -c src/app.c -o build/app.o
+
+utils.o: src/utils/utils.c src/utils/utils.h
+	$(CC) $(CFLAGS) -c src/utils/utils.c -o build/utils.o
+
+build: ./src/main.c utils.o app.o queue.o
+	$(CC) $(CFLAGS) ./src/main.c build/utils.o build/queue.o build/app.o -o main
 
 boca: clean
-	zip -r C.zip build/ src/ C Makefile
+	zip -r D.zip build/ src/ D Makefile
 
 valgrind:
 	cat $(ENTRADA) | valgrind ./$(MAIN)
