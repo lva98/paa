@@ -11,7 +11,8 @@ struct List {
   size_t data_size;
   List_Node * front;
   List_Node * back;
+  int (*compare_function)(const void * a, const void * b);
 };
 
 Boolean list_node_destroy (List_Node ** node);
-List_Node list_create_temp_node ();
+List_Node * list_create_temp_node (List list, void * data);

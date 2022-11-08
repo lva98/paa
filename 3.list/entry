@@ -1,6 +1,1 @@
-N=4;
-Fm=[Mam1;Mam2;Maz1;Mam3;Maz2;Mve1;Mvo1;Mvo2;Mve2;Mvo3;Mve4;Mam4;Mve5;Mve6;Mam5;Mvo4;Mve7;Mam6;Mvo5;Mve8;Mam7;Mam8;Mam9;Mam10;Mam11;Mam12;Mam13;Mam14;Mam15;Mam16];
-FCve=[mve1;mve2;mve3;mve4;mve5;mve6;mve7;mve8;mve9;mve10;mve11;mve12;mve13];
-FCvo=[mvo1;mvo2;mvo3;mvo4;mvo5;mvo6;mvo7;mvo8;mvo9;mvo10;mvo11;mvo12;mvo13;mvo14;mvo15;mvo16;mvo17;mvo18;mvo19;mvo20;mvo21;mvo22;mvo23];
-FCam=[mam1;mam2;mam3;mam4;mam5;mam6;mam7;mam8;mam9];
-FCaz=[maz1;maz2;maz3;maz4;maz5;maz6;maz7;maz8;maz9;maz10;maz11;maz12;maz13;maz14;maz15;maz16;maz17;maz18;maz19;maz20;maz21;maz22;maz23;maz24;maz25];
+[2;3;100;30;40;]

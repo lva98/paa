@@ -1,9 +1,8 @@
 #include "app.h"
 
 int main () {
-  create_queues();
+  create_list();
   read_input();
   solve();
-  destroy_queues();
   return 0;
 }

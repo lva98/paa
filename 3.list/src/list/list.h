@@ -7,7 +7,7 @@
 #endif
 
 typedef struct List * List;
-Boolean list_create (List *, size_t);
+Boolean list_create (List *, size_t, int (*)(const void *, const void *));
 
 Boolean list_push_front (List, void *);
 Boolean list_push_back (List, void *);
@@ -16,6 +16,7 @@ Boolean list_insert (List, int, void *);
 Boolean list_pop_front (List, void *);
 Boolean list_pop_back (List, void *);
 Boolean list_erase (List, int, void *);
+Boolean list_swap (List, int, int);
 
 Boolean list_back (List, void *);
 Boolean list_front (List, void *);

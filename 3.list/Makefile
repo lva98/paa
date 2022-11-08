@@ -5,10 +5,10 @@ CFLAGS=-Wall -O3
 default: build
 
 clean:
-	rm -f main C.zip stack.o hanoi.o utils.o *.o core a.out *.*~ Makefile~ build/*
+	rm -f main C.zip list.o app.o utils.o *.o core a.out *.*~ Makefile~ build/*
 
-queue.o: src/queue/queue.c src/queue/queue.h src/queue/private_queue.h
-	$(CC) $(CFLAGS) -c src/queue/queue.c -o build/queue.o
+list.o: src/list/list.c src/list/list.h src/list/private_list.h
+	$(CC) $(CFLAGS) -c src/list/list.c -o build/list.o
 
 app.o: src/app.c src/app.h
 	$(CC) $(CFLAGS) -c src/app.c -o build/app.o
@@ -16,11 +16,11 @@ app.o: src/app.c src/app.h
 utils.o: src/utils/utils.c src/utils/utils.h
 	$(CC) $(CFLAGS) -c src/utils/utils.c -o build/utils.o
 
-build: ./src/main.c utils.o app.o queue.o
-	$(CC) $(CFLAGS) ./src/main.c build/utils.o build/queue.o build/app.o -o main
+build: ./src/main.c utils.o app.o list.o
+	$(CC) $(CFLAGS) ./src/main.c build/utils.o build/list.o build/app.o -o main
 
 boca: clean
-	zip -r D.zip build/ src/ D Makefile
+	zip -r E.zip build/ src/ E Makefile
 
 valgrind:
 	cat $(ENTRADA) | valgrind ./$(MAIN)

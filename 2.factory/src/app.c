@@ -87,7 +87,7 @@ void solve () {
     }
 
     queue_pop(queues[mold_color], (void *) &item_color);
-    printf("p%s_%d", color2str(item_color), i + 1);
+    printf("p%s%d", color2str(item_color), i + 1);
     if (!queue_empty(queues[0])) {
       printf(";");
     }

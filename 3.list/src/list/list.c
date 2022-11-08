@@ -1,7 +1,7 @@
 #include "private_list.h"
 #include "string.h"
 
-Boolean list_create (List * list, size_t data_size) {
+Boolean list_create (List * list, size_t data_size, int (*compare_function)(const void * a, const void * b)) {
   *list = (List) malloc(sizeof(struct List));
   if (*list == NULL) {
     return FALSE;
@@ -11,6 +11,7 @@ Boolean list_create (List * list, size_t data_size) {
   (*list)->back  = NULL;
   (*list)->length = 0;
   (*list)->data_size = data_size;
+  (*list)->compare_function = compare_function;
   return TRUE;
 }
 
@@ -92,10 +93,13 @@ Boolean list_insert (List list, int index, void * data) {
   after_index_node->prev = temp_node;
   temp_node->prev = before_index_node;
   temp_node->next = after_index_node;
+  return TRUE;
 }
 
 Boolean list_pop_front (List list, void * data) {
+  printf("a");
   if (list_empty(list) == FALSE) {
+    printf("b");
     List_Node * old_front = list->front;
 
     if (data != NULL) {
@@ -103,6 +107,7 @@ Boolean list_pop_front (List list, void * data) {
     }
     free(old_front->data);
     old_front->data = NULL;
+    printf("b");
 
     list->front = old_front->next;
     list->front->prev = NULL;
@@ -146,6 +151,53 @@ Boolean list_back (List list, void * data) {
 
 Boolean list_empty (List list) {
   return list->front == NULL;
+}
+
+Boolean list_swap (List list, int source_index, int target_index) {
+  if (source_index == target_index)
+    return FALSE;
+
+  if (source_index < 0 || source_index >= list->length)
+    return FALSE;
+
+  if (target_index < 0 || target_index >= list->length)
+    return FALSE;
+
+  List_Node * source_node = NULL;
+  List_Node * target_node = NULL;
+  List_Node * iterator = list->front;
+
+  for (int i = 0; i < list->length; i++) {
+    if (source_node != NULL && target_node != NULL) {
+      break;
+    }
+
+    if (i == source_index) {
+      source_node = iterator;
+      continue;
+    }
+
+    if (i == target_index) {
+      target_node = iterator;
+    }
+
+    iterator = iterator->next;
+  }
+
+  List_Node * target_prev = target_node->prev;
+  List_Node * target_next = target_node->next;
+
+  source_node->prev->next = target_node;
+  source_node->next->prev = target_node;
+  target_node->next = source_node->next;
+  target_node->prev = source_node->prev;
+
+  target_prev->next = source_node;
+  target_next->prev = source_node;
+  source_node->next = target_next;
+  source_node->prev = target_prev; 
+
+  return TRUE;
 }
 
 Boolean list_node_destroy (List_Node ** node) {
