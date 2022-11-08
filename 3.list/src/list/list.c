@@ -34,15 +34,18 @@ Boolean list_push_back (List list, void * data) {
     return FALSE;
   }
 
+  if (list->front == NULL) {
+    list->front = temp_node;
+  }
+
   if (list->back != NULL) {
     list->back->next = temp_node;
     temp_node->prev = list->back;
-  } else {
-    list->front = temp_node;
-    list->back = temp_node;
   }
 
+  list->back = temp_node;
   ++list->length;
+
   return TRUE;
 }
 
@@ -97,20 +100,23 @@ Boolean list_insert (List list, int index, void * data) {
 }
 
 Boolean list_pop_front (List list, void * data) {
-  printf("a");
   if (list_empty(list) == FALSE) {
-    printf("b");
     List_Node * old_front = list->front;
+    
+    if (list->front->next != NULL) {
+      list->front = list->front->next;
+      list->front->prev = NULL;
+    } else {
+      list->front = NULL;
+      list->back  = NULL;
+    }
 
     if (data != NULL) {
       memcpy(data, old_front->data, list->data_size);
     }
+
     free(old_front->data);
     old_front->data = NULL;
-    printf("b");
-
-    list->front = old_front->next;
-    list->front->prev = NULL;
     free(old_front);
     old_front = NULL;
 
@@ -150,7 +156,7 @@ Boolean list_back (List list, void * data) {
 }
 
 Boolean list_empty (List list) {
-  return list->front == NULL;
+  return list->front == NULL || list->back == NULL;
 }
 
 Boolean list_swap (List list, int source_index, int target_index) {

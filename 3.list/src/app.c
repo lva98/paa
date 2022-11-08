@@ -34,7 +34,11 @@ void read_input () {
 }
 
 void solve () {
+  list_swap(list, 1, 2);
   int n;
-  list_pop_front(list, (void *) &n);
-  list_pop_front(list, (void *) &n);
+  for (; !list_empty(list); ) {
+    list_pop_front(list, (void *) &n);
+    printf("%d\n", n);
+  }
+  list_destroy(&list);
 }
