@@ -16,6 +16,7 @@ Boolean list_insert (List, int, void *);
 Boolean list_pop_front (List, void *);
 Boolean list_pop_back (List, void *);
 Boolean list_erase (List, int, void *);
+Boolean list_at (List, int);
 Boolean list_swap (List, int, int);
 
 Boolean list_back (List, void *);
